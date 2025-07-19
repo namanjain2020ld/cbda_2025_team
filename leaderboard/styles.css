@@ -1,0 +1,122 @@
+body {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.42em;
+    color: #A7A1AE;
+    background-color: #1F2739;
+}
+
+h1 {
+    font-size: 4em;
+    font-weight: 300;
+    line-height: 1em;
+    text-align: center;
+    color: #4DC3FA;
+}
+
+h2 {
+    font-size: 1em;
+    font-weight: 300;
+    text-align: center;
+    display: block;
+    line-height: 1em;
+    padding-bottom: 2em;
+    color: #FB667A;
+}
+
+h2 a {
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #FB667A;
+    text-decoration: none;
+}
+
+.blue { color: #185875; }
+.yellow { color: #FFF842; }
+
+.container th h1 {
+    font-size: calc(1em + 1vw); /* Dynamically scale font size based on viewport width */
+    font-weight: normal;
+    color: #d8cee4;
+    background-color: #424f6c;
+    padding: 1em 2% 2% 2%;
+    display: table;
+    margin: 0 auto;
+    width: 95%;
+    -webkit-box-shadow: 0 2px 2px -2px #0E1119;
+    box-shadow: 0 2px 2px -2px #0E1119;
+}
+
+/* General styling for <th> */
+.container th {
+    background-color: #1F2739;
+}
+
+.container td {
+    font-weight: normal;
+    font-size: calc(1em + 1vw); /* Dynamically scale font size based on viewport width */
+    -webkit-box-shadow: 0 2px 2px -2px #0E1119;
+    -moz-box-shadow: 0 2px 2px -2px #0E1119;
+    box-shadow: 0 2px 2px -2px #0E1119;
+    padding: 2% 2% 2% 2%;
+    transition: all 0.4s ease-in-out;
+}
+
+.container {
+    text-align: left;
+    overflow: hidden;
+    width: 95%;
+    margin: 0 auto;
+    display: table;
+    padding: 0 0 8em 0;
+}
+
+/* Background-color of the odd rows */
+.container tr:nth-child(odd) {
+    background-color: #323C50;
+}
+
+/* Background-color of the even rows */
+.container tr:nth-child(even) {
+    background-color: #2C3446;
+}
+
+.container th {
+    background-color: #1F2739;
+}
+
+.container td:first-child { color: #FB667A; }
+
+/* Hover effect on td */
+.container td:hover {
+    background-color: #FFF842;
+    color: #403E10;
+    font-weight: bold;
+    box-shadow: #7F7C21 -1px 1px, #7F7C21 -2px 2px, #7F7C21 -3px 3px, #7F7C21 -4px 4px, #7F7C21 -5px 5px, #7F7C21 -6px 6px;
+    transform: translate3d(6px, -6px, 0);
+    transition: all 0.4s ease-in-out;
+}
+
+/* Hover effect on td */
+.container td {
+    transition: all 0.4s ease-in-out;
+}
+
+/* Media query for mobile devices */
+@media (max-width: 900px) {
+    .container td:nth-child(4),
+    .container th:nth-child(4) { 
+        display: table-cell; /* Ensure the last column is displayed on mobile */
+    }
+
+    /* Adjust font size of <td> and <th> tags on mobile devices */
+    .container td, .container th {
+        font-size: calc(1em + 0.5vw); /* Slightly smaller font size on smaller screens */
+    }
+}
+
+@media (max-width: 600px) {
+    .container td, .container th {
+        font-size: calc(1em + 1vw); /* Further decrease font size for very small screens */
+    }
+}

@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Digital Clock Widget</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      width: 100vw;
+      background: #1a1a1a;
+      font-family: monospace;
+      overflow: hidden;
+    }
+    
+    #clock {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      padding: 2vw;
+      border-radius: 2vw;
+      background: transparent;
+    }
+    
+    #digital {
+      perspective: 1000px;
+      display: flex;
+      gap: 1vw;
+      height: 8vw;
+      font-size: clamp(16px, 4vw, 64px);
+      position: relative;
+    }
+    
+    #digital::after {
+      content: "";
+      display: block;
+      position: absolute;
+      top: -150%;
+      left: -50%;
+      width: 200%;
+      height: 400%;
+      background-image: linear-gradient(
+        180deg, 
+        #1a1a1a 10%, 
+        #1a1a1a66 30%, 
+        #1a1a1a00 40%, 
+        #1a1a1a00 60%,
+        #1a1a1a66 70%, 
+        #1a1a1a 90%
+      );
+      pointer-events: none;
+    }
+    
+    .slot {
+      position: relative;
+      width: 1em;
+      height: 2em;
+      color: #fff;
+      display: flex;
+      transform-style: preserve-3d;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-size: 1em;
+    }
+    
+    .colon {
+      transform: translateZ(3em);
+    }
+    
+    .numbers > div {
+      position: absolute;
+      transform-style: preserve-3d;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      backface-visibility: hidden;
+      transform-origin: center center 0px;
+    }
+    
+    /* Responsive scaling */
+    @media (max-width: 768px) {
+      #digital {
+        gap: 0.5vw;
+        height: 12vw;
+        font-size: clamp(12px, 6vw, 48px);
+      }
+    }
+    
+    @media (max-width: 480px) {
+      #digital {
+        gap: 0.3vw;
+        height: 16vw;
+        font-size: clamp(10px, 8vw, 32px);
+      }
+    }
+    
+    /* Status indicator */
+    #status {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #ff4444;
+      transition: background 0.3s ease;
+    }
+    
+    #status.connected {
+      background: #44ff44;
+    }
+    
+    #status.syncing {
+      background: #ffaa44;
+      animation: pulse 1s infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+    
+    /* Loading state */
+    #loading {
+      color: #fff;
+      font-size: 1.5em;
+      text-align: center;
+    }
+    
+    /* Debug info */
+    #debug {
+      position: absolute;
+      bottom: 10px;
+      left: 10px;
+      color: #666;
+      font-size: 12px;
+      font-family: monospace;
+    }
+  </style>
+</head>
+<body>
+  <div id="status"></div>
+  <div id="debug">Loading...</div>
+  <div id="clock">
+    <div id="loading">Loading Clock...</div>
+    <div id="digital"></div>
+  </div>
+
+  <script>
+    // First, let's try to load anime.js and handle errors
+    const $digitalClock = document.getElementById('digital');
+    const $status = document.getElementById('status');
+    const $loading = document.getElementById('loading');
+    const $debug = document.getElementById('debug');
+    
+    let anime, utils, createTimeline, animate;
+    let masterTL = null;
+    let isInitialized = false;
+    let lastMessageTime = 0;
+    
+    const s = 1000;
+    const m = 60 * s;
+    const h = 60 * m;
+    const oneday = h * 24;
+    
+    function updateDebug(message) {
+      $debug.textContent = message;
+      console.log('Widget Debug:', message);
+    }
+    
+    function updateStatus(status) {
+      $status.className = status;
+    }
+    
+    function getNow() {
+      return new Date().getTime() % oneday;
+    }
+    
+    // Try to load anime.js
+    async function loadAnime() {
+      try {
+        updateDebug('Loading anime.js...');
+        const animeModule = await import('https://esm.sh/animejs');
+        
+        // Extract the functions we need
+        animate = animeModule.animate;
+        createTimeline = animeModule.createTimeline;
+        utils = animeModule.utils;
+        
+        updateDebug('anime.js loaded successfully');
+        return true;
+      } catch (error) {
+        updateDebug('Failed to load anime.js: ' + error.message);
+        console.error('Failed to load anime.js:', error);
+        return false;
+      }
+    }
+    
+    // Create the 3D clock display
+    function initializeClock() {
+      if (isInitialized || !createTimeline) return;
+      
+      try {
+        updateDebug('Initializing clock...');
+        
+        masterTL = createTimeline({ 
+          defaults: { ease: 'linear' }, 
+          autoplay: false 
+        });
+        
+        // Clear existing content
+        $digitalClock.innerHTML = '';
+        $loading.style.display = 'none';
+        
+        [h * 10, h, 0, m * 10, m, 0, s * 10, s, 0, 100, 10].forEach(d => {
+          const $el = document.createElement('div');
+          $digitalClock.appendChild($el);
+          $el.classList.add('slot');
+          
+          if (!d) {
+            $el.classList.add('colon');
+            $el.textContent = ':';
+          } else {
+            $el.classList.add('numbers');
+            for (let i = 0; i < 10; i++) {
+              const $num = document.createElement('div');
+              $num.textContent = `${i}`;
+              utils.set($num, { rotateX: (i * 36), z: '3em' });
+              $el.appendChild($num);
+            }
+            
+            const canStop = d > 100;
+            const ease = canStop ? 'cubicBezier(1,0,.6,1.2)' : 'linear';
+            const duration = canStop ? 650 : d;
+            const position = `+=${canStop ? d - 650 : 0}`;
+            const numTL = createTimeline({ defaults: { ease }, loop: true });
+            const t = d === h*10 ? 4 : d === h ? 25 : d === m*10 || d === s*10 ? 7 : 11;
+            
+            for (let i = 1; i < t; i++) {
+              const rotateX = -((i * 36) + (i === t - 1 ? (360 - i * 36) : 0));
+              numTL.add($el, { rotateX, duration }, d === h*10 && i === t - 1 ? '+=' + ((h * 4) - 650) : position);
+            }
+            masterTL.sync(numTL, 0);
+          }
+        });
+        
+        masterTL.duration = oneday;
+        masterTL.iterationDuration = oneday;
+        
+        // Set initial time (3:30)
+        masterTL.currentTime = (60 * 60 * 1000 * 3) + (60 * 1000 * 30);
+        
+        isInitialized = true;
+        updateDebug('Clock initialized successfully');
+        
+      } catch (error) {
+        updateDebug('Clock initialization failed: ' + error.message);
+        console.error('Clock initialization failed:', error);
+      }
+    }
+    
+    // BroadcastChannel for remote control
+    const channel = new BroadcastChannel('clock-sync');
+    
+    // Listen for control messages
+    channel.addEventListener('message', (event) => {
+      if (!isInitialized) {
+        updateDebug('Received message but clock not initialized');
+        return;
+      }
+      
+      if (!masterTL) {
+        updateDebug('Received message but masterTL not available');
+        return;
+      }
+      
+      const now = Date.now();
+      lastMessageTime = now;
+      updateStatus('connected');
+      
+      updateDebug('Received: ' + event.data.type);
+      
+      // Handle different message types
+      if (event.data.type === 'control') {
+        const { action, data } = event.data;
+        
+        switch (action) {
+          case 'play':
+            masterTL.play();
+            break;
+            
+          case 'pause':
+            masterTL.pause();
+            break;
+            
+          case 'reverse':
+            masterTL.reverse();
+            break;
+            
+          case 'restart':
+            masterTL.restart();
+            break;
+            
+          case 'seek':
+            updateStatus('syncing');
+            animate(masterTL, {
+              currentTime: getNow(),
+              ease: 'inOut(3)',
+              duration: 1500,
+              complete: () => updateStatus('connected')
+            });
+            break;
+            
+          case 'slowmo':
+            updateStatus('syncing');
+            animate(masterTL, {
+              speed: 0.1,
+              ease: 'out(3)',
+              duration: 1500,
+              complete: () => updateStatus('connected')
+            });
+            break;
+            
+          case 'speedup':
+            updateStatus('syncing');
+            animate(masterTL, {
+              speed: 5,
+              ease: 'out(3)',
+              duration: 1500,
+              complete: () => updateStatus('connected')
+            });
+            break;
+            
+          case 'normalspeed':
+            updateStatus('syncing');
+            animate(masterTL, {
+              speed: 1,
+              ease: 'out(3)',
+              duration: 1500,
+              complete: () => updateStatus('connected')
+            });
+            break;
+            
+          case 'setTime':
+            if (data && data.currentTime !== undefined) {
+              masterTL.currentTime = data.currentTime;
+            }
+            break;
+            
+          case 'setSpeed':
+            if (data && data.speed !== undefined) {
+              masterTL.speed = data.speed;
+            }
+            break;
+        }
+      }
+      
+      // Handle sync messages
+      if (event.data.type === 'sync') {
+        const { currentTime, speed } = event.data;
+        if (currentTime !== undefined) {
+          masterTL.currentTime = currentTime;
+        }
+        if (speed !== undefined) {
+          masterTL.speed = speed;
+        }
+      }
+      
+      // Handle ping
+      if (event.data.type === 'ping') {
+        channel.postMessage({ type: 'pong', from: 'widget' });
+      }
+    });
+    
+    // Check connection status periodically
+    setInterval(() => {
+      const now = Date.now();
+      if (now - lastMessageTime > 5000) {
+        updateStatus('');
+      }
+    }, 1000);
+    
+    // Initialize everything
+    async function init() {
+      updateDebug('Starting initialization...');
+      
+      const animeLoaded = await loadAnime();
+      if (!animeLoaded) {
+        updateDebug('Failed to load anime.js - widget cannot function');
+        $loading.textContent = 'Failed to load animation library';
+        return;
+      }
+      
+      initializeClock();
+      
+      // Send ready signal
+      setTimeout(() => {
+        channel.postMessage({ type: 'widget-ready' });
+        updateDebug('Widget ready');
+      }, 500);
+    }
+    
+    // Start when page loads
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
+    
+    // Auto-resize handler
+    window.addEventListener('resize', () => {
+      // CSS handles responsive sizing
+    });
+  </script>
+</body>
+</html>

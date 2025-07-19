@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Customizable Animated Rings</title>
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500&display=swap");
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Quicksand", sans-serif;
+    }
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background: #111;
+      width: 100%;
+      overflow: hidden;
+      position: relative;
+    }
+    
+    .ring {
+      position: relative;
+      width: 500px;
+      height: 500px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: all 0.3s ease;
+    }
+    
+    .ring i {
+      position: absolute;
+      border: 2px solid #fff;
+      transition: all 0.5s ease;
+    }
+    
+    .ring i:nth-child(1) {
+      --ring-size: 100%;
+      --ring-distance: 0px;
+      --ring-roundness: 10%;
+      width: var(--ring-size);
+      height: var(--ring-size);
+      top: var(--ring-distance);
+      left: var(--ring-distance);
+      border-radius: var(--ring-roundness);
+      animation: animate 6s linear infinite;
+    }
+    
+    .ring i:nth-child(2) {
+      --ring-size: 80%;
+      --ring-distance: 10%;
+      --ring-roundness: 30%;
+      width: var(--ring-size);
+      height: var(--ring-size);
+      top: var(--ring-distance);
+      left: var(--ring-distance);
+      border-radius: var(--ring-roundness);
+      animation: animate 4s linear infinite;
+    }
+    
+    .ring i:nth-child(3) {
+      --ring-size: 60%;
+      --ring-distance: 20%;
+      --ring-roundness: 50%;
+      width: var(--ring-size);
+      height: var(--ring-size);
+      top: var(--ring-distance);
+      left: var(--ring-distance);
+      border-radius: var(--ring-roundness);
+      animation: animate2 10s linear infinite;
+    }
+    
+    .ring:hover i {
+      border: 150px solid var(--clr);
+      filter: drop-shadow(0 0 20px var(--clr));
+    }
+    
+    @keyframes animate {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+    
+    @keyframes animate2 {
+      0% {
+        transform: rotate(360deg);
+      }
+      100% {
+        transform: rotate(0deg);
+      }
+    }
+    
+    .content {
+      position: absolute;
+      width: 300px;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      gap: 20px;
+      text-align: center;
+    }
+    
+    .content h2 {
+      font-size: 2em;
+      color: #fff;
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+    }
+    
+    .content p {
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 1.1em;
+      line-height: 1.4;
+    }
+  </style>
+</head>
+<body>
+  <div class="ring" id="ring">
+    <i style="--clr:#00ff0a;"></i>
+    <i style="--clr:#ff0057;"></i>
+    <i style="--clr:#fffd44;"></i>
+    <div class="content">
+      <h2>Animated Rings</h2>
+      <p>Hover over the rings to see the glow effect. Perfect circular rings with customizable spacing.</p>
+      
+    </div>
+  </div>
+
+  <script>
+    const ring = document.getElementById('ring');
+    
+    // Add random glow effect
+    function addRandomGlow() {
+      const rings = ring.querySelectorAll('i');
+      rings.forEach((ringEl, index) => {
+        setInterval(() => {
+          if (Math.random() > 0.7) {
+            ringEl.style.filter = `drop-shadow(0 0 ${Math.random() * 30 + 10}px var(--clr))`;
+            setTimeout(() => {
+              ringEl.style.filter = '';
+            }, 200);
+          }
+        }, 2000 + index * 500);
+      });
+    }
+    
+    // Initialize random glow effect
+    addRandomGlow();
+  </script>
+</body>
+</html>
+
+
+
+
+<!--Where to Find Customization Options:
+1. Ring Size (Overall container):
+
+Location: CSS .ring class
+Property: width and height
+Current: 500px each
+Example: Change to width: 600px; height: 600px;
+
+2. Ring Colors:
+
+Location: HTML <i> elements
+Property: --clr custom property
+Current:
+
+Ring 1: #00ff0a (green)
+Ring 2: #ff0057 (pink)
+Ring 3: #fffd44 (yellow)
+
+
+Example: Change to style="--clr:#ff0000;"
+
+3. Individual Ring Distance (spacing between rings):
+
+Location: CSS .ring i:nth-child(1), .ring i:nth-child(2), .ring i:nth-child(3)
+Properties:
+
+--ring-distance: How far from edge (controls spacing)
+--ring-size: Size of individual ring
+
+
+Current Settings:
+
+Ring 1: --ring-distance: 0px; --ring-size: 100%;
+Ring 2: --ring-distance: 10%; --ring-size: 80%;
+Ring 3: --ring-distance: 20%; --ring-size: 60%;
+
+
+Example: For more spacing, change Ring 2 to --ring-distance: 15%; --ring-size: 70%;
+
+4. Ring Roundness (how circular they are):
+
+Location: Same as above
+Property: --ring-roundness
+Current: 50% (perfect circle)
+Options:
+
+50% = perfect circle
+0% = square
+25% = rounded square
+38% 62% 63% 37% / 41% 44% 56% 59% = organic blob shape (like original)
+
+
+
+5. Animation Speed:
+
+Location: CSS keyframe animations
+Property: animation duration
+Current: 6s, 4s, 10s
+Example: Change to animation: animate 3s linear infinite;
+
+The rings are now perfectly circular and properly spaced. Each ring can be controlled independently for distance, size, and roundness!-->

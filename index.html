@@ -1,0 +1,780 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo login page</title>
+
+
+<!--This is a the cool black whole animation style css. -->
+    <style>body, html { 
+    height: 100%; 
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    height: 100%;
+    background-color: rgba(25,25,25,1);
+    overflow: hidden;
+}
+
+#blackhole {
+    height: 100%;
+    width: 100%;
+    position: relative;
+    display: flex;
+}
+
+.centerHover {
+    width: 255px;
+    height: 255px;
+    background-color: transparent;
+    border-radius: 50%;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-top: -128px;
+    margin-left: -128px;
+    z-index: 2;
+    cursor: pointer;
+    line-height: 255px;
+    text-align: center;
+    transition: all 500ms;
+}
+
+.centerHover.open {
+    opacity: 0;
+    pointer-events: none;
+}
+
+
+
+canvas {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    margin: auto;
+}
+
+#blackhole {
+    height: 100%;
+    width: 100%;
+    position: relative;
+    display: flex;
+}
+
+.centerHover {
+    width: 255px;
+    height: 255px;
+    background-color: transparent;
+    border-radius: 50%;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-top: -128px;
+    margin-left: -128px;
+    z-index: 2;
+     
+
+    cursor: pointer;
+    line-height: 255px;
+    text-align: center;
+    transition: all 500ms;
+}
+
+.centerHover.open {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.centerHover:hover span {
+    color: #DDD;
+    
+}
+
+.centerHover:hover span:before { 
+    background-color: #DDD; 
+}
+
+.centerHover:hover span:after { 
+    background-color: #DDD; 
+}
+
+.centerHover span {
+    color: #666;
+    font-family: serif;
+    font-size: 18px;
+    position: relative;
+    transition: all 500ms;
+}
+
+.centerHover span:before {
+    content: '';
+    display: inline-block;
+    height: 1px;
+    width: 16px;
+    margin-right: 12px;
+    margin-bottom: 4px;
+    background-color: #666;
+    transition: all 500ms;
+}
+
+.centerHover span:after {
+    content: '';
+    display: inline-block;
+    height: 1px;
+    width: 16px;
+    margin-left: 12px;
+    margin-bottom: 4px;
+    background-color: #666;
+    transition: all 500ms;
+}
+
+canvas {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    margin: auto;
+} </style>
+<!--End of black whole animation style css. -->
+
+<!--This is code for login for , style css. -->
+<style>html {
+  height: 100%;
+}
+body {
+  margin:0;
+  padding:0;
+  font-family: sans-serif;
+  
+}
+
+.login-box {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 400px;
+  padding: 40px;
+  transform: translate(-50%, -50%);
+  background: rgba(255, 255, 255, 0.0); /* Fully transparent for glass effect */
+  box-sizing: border-box;
+  box-shadow: 0 15px 25px rgba(0,0,0,.6);
+  border-radius: 16px;
+  border: 1.5px solid rgba(255,255,255,0.18); /* subtle border for glass look */
+  backdrop-filter: blur(32px) saturate(180%); /* stronger blur and saturation */
+  -webkit-backdrop-filter: blur(32px) saturate(180%); /* Safari support */
+  display: none; /* Hide by default */
+  z-index: 10; /* Make sure it's above everything */
+}
+
+.login-box h2 {
+  margin: 0 0 30px;
+  padding: 0;
+  color: #fff;
+  text-align: center;
+}
+
+.login-box .user-box {
+  position: relative;
+}
+
+.login-box .user-box input {
+  width: 100%;
+  padding: 10px 0;
+  font-size: 16px;
+  color: #fff;
+  margin-bottom: 30px;
+  border: none;
+  border-bottom: 1px solid #fff;
+  outline: none;
+  background: transparent;
+}
+.login-box .user-box label {
+  position: absolute;
+  top:0;
+  left: 0;
+  padding: 10px 0;
+  font-size: 16px;
+  color: #fff;
+  pointer-events: none;
+  transition: .5s;
+}
+
+.login-box .user-box input:focus ~ label,
+.login-box .user-box input:valid ~ label {
+  top: -20px;
+  left: 0;
+  color: #03e9f4;
+  font-size: 12px;
+}
+
+.login-box form a {
+  position: relative;
+  display: inline-block;
+  padding: 10px 20px;
+  color:  #03e9f4;
+  font-size: 16px;
+  text-decoration: none;
+  text-transform: uppercase;
+  overflow: hidden;
+  transition: .5s;
+  margin-top: 40px;
+  letter-spacing: 4px
+}
+
+.login-box a:hover {
+background: linear-gradient(90deg, #ff0000, #ff00ff, #0000ff);
+color: #fff;
+border-radius: 5px;
+box-shadow:
+    0 0 10px #ff0000,
+    0 0 25px #ff00ff,
+    0 0 50px #0000ff,
+    0 0 100px #ff00ff;
+}
+
+.login-box a span {
+  position: absolute;
+  display: block;
+}
+
+.login-box a span:nth-child(1) {
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #ff00ff);
+  animation: btn-anim1 1s linear infinite;
+}
+
+@keyframes btn-anim1 {
+  0% {
+    left: -100%;
+  }
+  50%,100% {
+    left: 100%;
+  }
+}
+
+.login-box a span:nth-child(2) {
+  top: -100%;
+  right: 0;
+  width: 2px;
+  height: 100%;
+  background: linear-gradient(180deg, transparent, #ff0000);
+  animation: btn-anim2 1s linear infinite;
+  animation-delay: .25s
+}
+
+@keyframes btn-anim2 {
+  0% {
+    top: -100%;
+  }
+  50%,100% {
+    top: 100%;
+  }
+}
+
+.login-box a span:nth-child(3) {
+  bottom: 0;
+  right: -100%;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(270deg, transparent,#0000ff);
+  animation: btn-anim3 1s linear infinite;
+  animation-delay: .5s
+}
+
+@keyframes btn-anim3 {
+  0% {
+    right: -100%;
+  }
+  50%,100% {
+    right: 100%;
+  }
+}
+
+.login-box a span:nth-child(4) {
+  bottom: -100%;
+  left: 0;
+  width: 2px;
+  height: 100%;
+  background: linear-gradient(360deg, transparent, #03e9f4);
+  animation: btn-anim4 1s linear infinite;
+  animation-delay: .75s
+}
+
+@keyframes btn-anim4 {
+  0% {
+    bottom: -100%;
+  }
+  50%,100% {
+    bottom: 100%;
+  }
+}
+</style>
+<!--This is end of code for login for , style css. -->
+
+</head>
+<body>
+    <div id="blackhole">
+        <div class="centerHover"><span>Check Team</span></div>
+    </div>
+    <!--html of using the login form. -->
+    <div class="login-box" id="loginBox">
+    <h2>CBDA Team</h2>
+    <form>
+        <div class="user-box">
+            <input type="text" name="" id="usernameInput" required="">
+            <label>Enter Email</label>
+        </div>
+        
+        <a href="#" onclick="searchTeams(); return false;">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            Search
+        </a>
+    </form>
+    
+    <!-- Add a result div to display the team -->
+    <div id="result" style="color: white; margin-top: 20px; text-align: center;">
+        Result will appear here.
+    </div>
+</div>
+<!-- end of html of using the login form. -->
+ 
+<!--This is a the cool black whole animation style js. -->
+<script>
+
+function blackhole(element) {
+    const container = document.querySelector(element);
+    const h = container.offsetHeight;
+    const w = container.offsetWidth;
+    const cw = w;
+    const ch = h;
+    const maxorbit = 355; // distance from center
+    const centery = ch / 2;
+    const centerx = cw / 2;
+
+    const startTime = new Date().getTime();
+    let currentTime = 0;
+
+    const stars = [];
+    let collapse = false; // if hovered
+    let expanse = false; // if clicked
+    let returning = false; // if particles are returning to orbit
+
+    // Create canvas
+    const canvas = document.createElement('canvas');
+    canvas.width = cw;
+    canvas.height = ch;
+    container.appendChild(canvas);
+    const context = canvas.getContext("2d");
+
+    context.globalCompositeOperation = "multiply";
+
+    function setDPI(canvas, dpi) {
+        // Set up CSS size if it's not set up already
+        if (!canvas.style.width)
+            canvas.style.width = canvas.width + 'px';
+        if (!canvas.style.height)
+            canvas.style.height = canvas.height + 'px';
+
+        const scaleFactor = dpi / 96;
+        canvas.width = Math.ceil(canvas.width * scaleFactor);
+        canvas.height = Math.ceil(canvas.height * scaleFactor);
+        const ctx = canvas.getContext('2d');
+        ctx.scale(scaleFactor, scaleFactor);
+    }
+
+    function rotate(cx, cy, x, y, angle) {
+        const radians = angle;
+        const cos = Math.cos(radians);
+        const sin = Math.sin(radians);
+        const nx = (cos * (x - cx)) + (sin * (y - cy)) + cx;
+        const ny = (cos * (y - cy)) - (sin * (x - cx)) + cy;
+        return [nx, ny];
+    }
+
+    setDPI(canvas, 192);
+
+    class Star {
+        constructor() {
+            // Get a weighted random number, so that the majority of stars will form in the center of the orbit
+            const rands = [];
+            rands.push(Math.random() * (maxorbit / 2) + 1);
+            rands.push(Math.random() * (maxorbit / 2) + maxorbit);
+
+            this.orbital = (rands.reduce((p, c) => p + c, 0) / rands.length);
+            
+            this.x = centerx; // All of these stars are at the center x position at all times
+            this.y = centery + this.orbital; // Set Y position starting at the center y + the position in the orbit
+
+            this.yOrigin = centery + this.orbital; // this is used to track the particles origin
+
+            this.speed = (Math.floor(Math.random() * 1.5) + 1.5) * Math.PI / 180; // The rate at which this star will orbit
+            this.rotation = 0; // current Rotation
+            this.startRotation = (Math.floor(Math.random() * 360) + 1) * Math.PI / 180; // Starting rotation
+
+            this.id = stars.length; // This will be used when expansion takes place
+//change the 1.7
+            this.collapseBonus = this.orbital - (maxorbit * 1); // This "bonus" is used to randomly place some stars outside of the blackhole on hover
+            if (this.collapseBonus < 0) { // if the collapse "bonus" is negative
+                this.collapseBonus = 0; // set it to 0, this way no stars will go inside the blackhole
+            }
+
+
+            this.hoverPos = centery + (maxorbit / 2) + this.collapseBonus; // Where the star will go on hover of the blackhole
+            this.expansePos = centery + (this.id % 100) * -10 + (Math.floor(Math.random() * 20) + 1); // Where the star will go when expansion takes place
+
+            this.prevR = this.startRotation;
+            this.prevX = this.x;
+            this.prevY = this.y;
+            
+            // Store original position for returning
+            this.originalY = this.yOrigin;
+
+            stars.push(this);
+        }
+
+        draw() {
+            if (!expanse) {
+                // Normal orbit or collapsed
+                this.rotation = this.startRotation + (currentTime * this.speed);
+                if (!collapse) { // not hovered
+                    // Smoothly move to origin
+                    this.y += (this.yOrigin - this.y) * 0.05;
+                } else { // on hover
+                    // Smoothly move to hover position
+                    this.y += (this.hoverPos - this.y) * 0.5;
+                }
+            } else if (expanse) {
+                // Expansion, keep stars scattered and rotating
+                this.rotation = this.startRotation + (currentTime * (this.speed / 2));
+                // Smoothly move to expanded position
+                this.y += (this.expansePos - this.y) * 0.05;
+            }
+            // No return to orbit, no 'returning' logic
+
+            context.save();
+            // Create a radial gradient for all stars, animated by colorPhase
+let grad = context.createRadialGradient(this.x, this.y, 0, this.x, this.y, 2.5);
+
+// Red at center
+grad.addColorStop(0, 'rgb(255,0,0)');
+
+// Magenta in middle (animated)
+let magenta = `rgb(${Math.floor(255 * colorPhase)},0,${Math.floor(255 * colorPhase)})`;
+grad.addColorStop(0.5, magenta);
+
+// Light pink after magenta
+grad.addColorStop(0.7, 'rgb(255,182,193)'); // Light pink (#FFB6C1)
+
+// Light cherry red after light pink
+grad.addColorStop(0.75, 'rgb(255,102,102)'); // Light red (cherry) (#FF6666)
+
+// Light pink again before blue
+grad.addColorStop(0.8, 'rgb(255,182,193)'); // Light pink again
+
+// Blue at edge
+grad.addColorStop(0.85, 'rgb(0,0,255)');
+
+// Light blue at very edge
+grad.addColorStop(1, 'rgb(3,233,244)'); // Light blue (#03e9f4)
+
+
+            context.strokeStyle = grad;
+            if (window.starGlow) {
+                context.shadowColor = 'magenta';
+                context.shadowBlur = 15;
+            } else {
+                context.shadowBlur = 0;
+            }
+            // Draw orbit line
+            context.beginPath();
+            const oldPos = rotate(centerx, centery, this.prevX, this.prevY, -this.prevR);
+            context.moveTo(oldPos[0], oldPos[1]);
+            context.translate(centerx, centery);
+            context.rotate(this.rotation);
+            context.translate(-centerx, -centery);
+            context.lineTo(this.x, this.y);
+            context.stroke();
+            // Draw star as gradient circle
+            context.beginPath();
+            context.arc(this.x, this.y, 2.03, 0, 2* Math.PI);
+            context.fillStyle = grad;
+            context.fill();
+            context.restore();
+
+            this.prevR = this.rotation;
+            this.prevX = this.x;
+            this.prevY = this.y;
+        }
+    }
+
+    // Event listeners
+    const centerHover = document.querySelector('.centerHover');
+    const loginBox = document.getElementById('loginBox');
+    
+    centerHover.addEventListener('click', function() {
+        collapse = false;
+        expanse = true;
+        window.starGlow = true; // Keep stars glowing when scattered
+        this.classList.add('open');
+        // Show login form after expansion, no return to orbit
+        // Change 2000 below to adjust expansion duration (ms)
+        setTimeout(() => {
+            window.expansionComplete = true; // flag to lock stars at expanded position
+            this.classList.remove('open');
+            this.style.display = 'none'; // Hide the blackhole text
+            loginBox.style.display = 'block'; // Show login box
+        }, 2000); // 2 seconds expansion experience (change this value for speed)
+    });
+    
+    centerHover.addEventListener('mouseover', function() {
+        if (expanse === false) {
+            collapse = true;
+            window.starGlow = true; // Enable glow on hover
+        }
+    });
+    centerHover.addEventListener('mouseout', function() {
+        if (expanse === false) {
+            collapse = false;
+            window.starGlow = false; // Disable glow on mouse out
+        }
+    });
+
+    // Animation loop
+    function loop() {
+        const now = new Date().getTime();
+        currentTime = (now - startTime) / 50;
+        // Oscillate colorPhase between 0 and 1 and back
+        colorPhase = (Math.sin(now / 800) + 1) / 2; // cycles smoothly forward and backward
+
+        context.fillStyle = 'rgba(25,25,25,0.2)';
+        context.fillRect(0, 0, cw, ch);
+
+        for (let i = 0; i < stars.length; i++) {
+            if (stars[i] !== undefined) {
+                stars[i].draw();
+            }
+        }
+
+        requestAnimationFrame(loop);
+    }
+
+    function init() {
+        context.fillStyle = 'rgba(25,25,25,1)'; // Initial clear of the canvas
+        context.fillRect(0, 0, cw, ch);
+        for (let i = 0; i < 210; i++) { // create fewer stars for better performance
+            new Star();
+        }
+        loop();
+    }
+
+    init();
+}
+
+// Initialize when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    blackhole('#blackhole');
+});
+window.starGlow = false;
+let colorPhase = 0;
+</script>
+<!--End of black whole animation style css. -->
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+<script>
+  function searchTeams() {
+  var username = document.getElementById('usernameInput').value.trim();
+
+  if (username === '') {
+    alert('Please enter a username.');
+    return;
+  }
+
+  // Special case for 'bcatech' user
+  if (username === 'bcatech') {
+    // JavaScript to dynamically create and append the HTML structure
+    function createQuestionsRing2() {
+      if (!questionsRingCreated) {
+        questionsRingCreated = true; // checker
+        
+        // Create the main div with class "ring"
+        var ringDiv = document.createElement('div');
+        ringDiv.classList.add('ring');
+
+        // Create the three i elements with different colors
+        for (var i = 0; i < 3; i++) {
+          var iElement = document.createElement('i');
+          switch (i) {
+            case 0:
+              iElement.style.setProperty('--clr', '#00ff0a');
+              break;
+            case 1:
+              iElement.style.setProperty('--clr', '#ff0057');
+              break;
+            case 2:
+              iElement.style.setProperty('--clr', '#fffd44');
+              break;
+            default:
+              break;
+          }
+          ringDiv.appendChild(iElement);
+        }
+
+        // Create the login div with class "login"
+        var loginDiv = document.createElement('div');
+        loginDiv.classList.add('login');
+
+        // Create the h2 element for "Questions"
+        var h2Element = document.createElement('h2');
+        h2Element.textContent = 'google form links ';
+        loginDiv.appendChild(h2Element);
+
+        // Define questions and corresponding links
+        var questions = ["Aptitude", "Case one QA", "Case two QA", "CHECK RESPONSE"];
+        var links_for_each = [
+          "https://forms.gle/HJtrP18E9gEvhL1f8",
+          "https://forms.gle/ocnNX2ujz6mTeZzh6",
+          "https://forms.gle/g1hp5HXU7JY3cMVo9",
+          "https://docs.google.com/spreadsheets/d/1O4V_gptOI1MsBCizAjNAGNnDEpLo4Fv6VraYde9_ID0/edit?usp=sharing"
+        ];
+
+        // Loop through the questions array and create input elements
+        for (var j = 0; j < questions.length; j++) {
+          var inputBoxDiv = document.createElement('div');
+          inputBoxDiv.classList.add('inputBx');
+
+          var inputElement = document.createElement('input');
+          inputElement.setAttribute('type', 'submit');
+          inputElement.setAttribute('value', questions[j]);
+          inputElement.setAttribute('onclick', `window.open("${links_for_each[j]}", "_blank")`);
+
+          inputBoxDiv.appendChild(inputElement);
+          loginDiv.appendChild(inputBoxDiv);
+        }
+
+        // Append the loginDiv to the ringDiv
+        ringDiv.appendChild(loginDiv);
+
+        // Append the entire ringDiv to the document body
+        document.body.appendChild(ringDiv);
+      }
+    }
+
+    // Call the function to create the Questions ring when needed
+    createQuestionsRing2();
+    return; // Exit early for bcatech user
+  }
+
+  // For all other users, fetch from Google Sheets
+  var url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSrt52SZcdUxBntObaTIK9X_DLs0bRLtz-jGuBEeU6lTRPtRUB7x6xHwK9jo1W3UrtUpiXZDC2uBZVg/pub?gid=0&single=true&output=csv';
+
+  // Make a GET request to the published Google Sheet URL
+  fetch(url)
+    .then(response => response.text())
+    .then(data => {
+      // Parse CSV data
+      var rows = Papa.parse(data, { header: false }).data; // No headers in this case
+
+      // Find the index of the username in the first column (index 0)
+      var index = rows.findIndex(row => row[0] && row[0].trim().toLowerCase() === username.toLowerCase());
+
+      if (index !== -1) {
+        var team = rows[index][1]; // Get the team name from the second column (index 1)
+        document.getElementById('result').textContent = ` ${username} your team is ${team}`;
+
+        // JavaScript to dynamically create and append the HTML structure
+        function createQuestionsRing() {
+          if (index !== -1 && !questionsRingCreated) {
+            questionsRingCreated = true; // checker
+            
+            // Create the main div with class "ring"
+            var ringDiv = document.createElement('div');
+            ringDiv.classList.add('ring');
+
+            // Create the three i elements with different colors 
+            for (var i = 0; i < 3; i++) {
+              var iElement = document.createElement('i');
+              switch (i) {
+                case 0:
+                  iElement.style.setProperty('--clr', '#00ff0a');
+                  break;
+                case 1:
+                  iElement.style.setProperty('--clr', '#ff0057');
+                  break;
+                case 2:
+                  iElement.style.setProperty('--clr', '#fffd44');
+                  break;
+                default:
+                  break;
+              }
+              ringDiv.appendChild(iElement);
+            }
+
+            // Create the login div with class "login"
+            var loginDiv = document.createElement('div');
+            loginDiv.classList.add('login');
+
+            // Create the h2 element for "Questions"
+            var h2Element = document.createElement('h2');
+            h2Element.textContent = 'QUESTIONS';
+            loginDiv.appendChild(h2Element);
+
+            // Define questions and corresponding links
+            var questions = ["Aptitude", "Case one QA", "Case 1 DATA", "Case two QA", "Case 2 DATA", "FEEDBACK"];
+            var links_for_each = [
+              "Aptitude Questions.pdf",
+              "Case Study 1_Questions.pdf",
+              "Case1_Swiggy Dataset.xlsx",
+              "Case Study 2_Questions.pdf",
+              "Case2_Data Science Salaries.xlsx",
+              "https://forms.gle/XepnmyHY9jiESsX76"
+            ];
+
+            // Loop through the questions array and create input elements
+            for (var j = 0; j < questions.length; j++) {
+              var inputBoxDiv = document.createElement('div');
+              inputBoxDiv.classList.add('inputBx');
+
+              var inputElement = document.createElement('input');
+              inputElement.setAttribute('type', 'submit');
+              inputElement.setAttribute('value', questions[j]);
+              inputElement.setAttribute('onclick', `window.open("${links_for_each[j]}", "_blank")`);
+
+              inputBoxDiv.appendChild(inputElement);
+              loginDiv.appendChild(inputBoxDiv);
+            }
+
+            // Append the loginDiv to the ringDiv
+            ringDiv.appendChild(loginDiv);
+
+            // Append the entire ringDiv to the document body
+            document.body.appendChild(ringDiv);
+          }
+        }
+
+        // Call the function to create the Questions ring when needed
+        createQuestionsRing();
+
+      } else {
+        document.getElementById('result').textContent = `User ${username} not found.`;
+      }
+    })
+    .catch(error => {
+      console.error('Error fetching data:', error);
+      document.getElementById('result').textContent = 'Error fetching data. Please try again later.';
+    });
+}
+
+// Note: You'll also need the global variable declaration
+var questionsRingCreated = false;
+</script>
+</body>
+</html>
