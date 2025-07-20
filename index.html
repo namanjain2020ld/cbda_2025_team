@@ -580,6 +580,12 @@ function searchTeams() {
         h2Element.textContent = 'Google Form Links';
         loginBoxDiv.appendChild(h2Element);
 
+
+        loginBoxDiv.style.display = 'flex';
+loginBoxDiv.style.flexWrap = 'wrap';
+loginBoxDiv.style.gap = '20px';  // auto spacing between children
+
+
         // Define questions and corresponding links
         var questions = ["Aptitude", "Case one QA", "Case two QA", "CHECK RESPONSE"];
         var links_for_each = [
@@ -593,18 +599,22 @@ function searchTeams() {
         for (var j = 0; j < questions.length; j++) {
           // Create a link element styled like your existing form links
           var linkElement = document.createElement('a');
-          linkElement.href = '#';
-          linkElement.textContent = questions[j];
-          linkElement.setAttribute('onclick', `window.open("${links_for_each[j]}", "_blank"); return false;`);
-          
-          // Add the animated spans for the button effect (from your existing CSS)
-          for (var k = 1; k <= 4; k++) {
-            var spanElement = document.createElement('span');
-            linkElement.appendChild(spanElement);
-          }
-          
-          linkElement.style.marginTop = '20px'; // Add some spacing between links
-          linkElement.style.display = 'block'; // Make each link on its own line
+linkElement.href = '#';
+linkElement.textContent = questions[j];
+linkElement.setAttribute('onclick', `window.open("${links_for_each[j]}", "_blank"); return false;`);
+linkElement.style.marginTop = '30px';
+linkElement.style.display = 'inline-block';
+linkElement.style.padding = '12px 24px';
+linkElement.style.fontSize = '16px';
+linkElement.style.color = '#fff';
+linkElement.style.background = 'linear-gradient(135deg, #6e8efb, #a777e3)';
+linkElement.style.border = 'none';
+linkElement.style.borderRadius = '8px';
+linkElement.style.textDecoration = 'none';
+linkElement.style.overflow = 'hidden';
+linkElement.style.position = 'relative';
+linkElement.style.transition = 'background 0.3s ease, transform 0.2s ease';
+linkElement.style.zIndex = '1';
           
           loginBoxDiv.appendChild(linkElement);
         }
