@@ -3,6 +3,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Demo login page</title>
 
+
 <!--This is a the cool black whole animation style css. -->
     <style>body, html { 
     height: 100%; 
@@ -45,12 +46,45 @@ body {
     pointer-events: none;
 }
 
+
+
 canvas {
     position: relative;
     z-index: 1;
     width: 100%;
     height: 100%;
     margin: auto;
+}
+
+#blackhole {
+    height: 100%;
+    width: 100%;
+    position: relative;
+    display: flex;
+}
+
+.centerHover {
+    width: 255px;
+    height: 255px;
+    background-color: transparent;
+    border-radius: 50%;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-top: -128px;
+    margin-left: -128px;
+    z-index: 2;
+     
+
+    cursor: pointer;
+    line-height: 255px;
+    text-align: center;
+    transition: all 500ms;
+}
+
+.centerHover.open {
+    opacity: 0;
+    pointer-events: none;
 }
 
 .centerHover:hover span {
@@ -94,6 +128,14 @@ canvas {
     margin-bottom: 4px;
     background-color: #666;
     transition: all 500ms;
+}
+
+canvas {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    margin: auto;
 } </style>
 <!--End of black whole animation style css. -->
 
@@ -548,7 +590,7 @@ let colorPhase = 0;
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
 <script>
-function searchTeams() {
+  function searchTeams() {
   var username = document.getElementById('usernameInput').value.trim();
 
   if (username === '') {
@@ -558,25 +600,42 @@ function searchTeams() {
 
   // Special case for 'bcatech' user
   if (username === 'bcatech') {
-    // Hide the current login box
-    document.getElementById('loginBox').style.display = 'none';
-    
-    // JavaScript to dynamically create and append the HTML structure using existing CSS classes
+    // JavaScript to dynamically create and append the HTML structure
     function createQuestionsRing2() {
       if (!questionsRingCreated) {
         questionsRingCreated = true; // checker
         
-        // Create the main div with class "login-box" (using your existing CSS)
-        var loginBoxDiv = document.createElement('div');
-        loginBoxDiv.classList.add('login-box');
-        loginBoxDiv.id = 'bcatechBox'; // Give it a unique ID
-        loginBoxDiv.style.display = 'block'; // Make sure it's visible
-        loginBoxDiv.style.zIndex = '100'; // Ensure it's on top
+        // Create the main div with class "ring"
+        var ringDiv = document.createElement('div');
+        ringDiv.classList.add('ring');
 
-        // Create the h2 element for "Google Form Links"
+        // Create the three i elements with different colors
+        for (var i = 0; i < 3; i++) {
+          var iElement = document.createElement('i');
+          switch (i) {
+            case 0:
+              iElement.style.setProperty('--clr', '#00ff0a');
+              break;
+            case 1:
+              iElement.style.setProperty('--clr', '#ff0057');
+              break;
+            case 2:
+              iElement.style.setProperty('--clr', '#fffd44');
+              break;
+            default:
+              break;
+          }
+          ringDiv.appendChild(iElement);
+        }
+
+        // Create the login div with class "login"
+        var loginDiv = document.createElement('div');
+        loginDiv.classList.add('login');
+
+        // Create the h2 element for "Questions"
         var h2Element = document.createElement('h2');
-        h2Element.textContent = 'Google Form Links';
-        loginBoxDiv.appendChild(h2Element);
+        h2Element.textContent = 'google form links ';
+        loginDiv.appendChild(h2Element);
 
         // Define questions and corresponding links
         var questions = ["Aptitude", "Case one QA", "Case two QA", "CHECK RESPONSE"];
@@ -587,32 +646,29 @@ function searchTeams() {
           "https://docs.google.com/spreadsheets/d/1O4V_gptOI1MsBCizAjNAGNnDEpLo4Fv6VraYde9_ID0/edit?usp=sharing"
         ];
 
-        // Loop through the questions array and create form elements using your existing CSS structure
+        // Loop through the questions array and create input elements
         for (var j = 0; j < questions.length; j++) {
-          // Create a link element styled like your existing form links
-          var linkElement = document.createElement('a');
-          linkElement.href = '#';
-          linkElement.textContent = questions[j];
-          linkElement.setAttribute('onclick', `window.open("${links_for_each[j]}", "_blank"); return false;`);
-          
-          // Add the animated spans for the button effect (from your existing CSS)
-          for (var k = 1; k <= 4; k++) {
-            var spanElement = document.createElement('span');
-            linkElement.appendChild(spanElement);
-          }
-          
-          linkElement.style.marginTop = '20px'; // Add some spacing between links
-          linkElement.style.display = 'block'; // Make each link on its own line
-          
-          loginBoxDiv.appendChild(linkElement);
+          var inputBoxDiv = document.createElement('div');
+          inputBoxDiv.classList.add('inputBx');
+
+          var inputElement = document.createElement('input');
+          inputElement.setAttribute('type', 'submit');
+          inputElement.setAttribute('value', questions[j]);
+          inputElement.setAttribute('onclick', `window.open("${links_for_each[j]}", "_blank")`);
+
+          inputBoxDiv.appendChild(inputElement);
+          loginDiv.appendChild(inputBoxDiv);
         }
 
-        // Append the entire loginBoxDiv to the document body
-        document.body.appendChild(loginBoxDiv);
+        // Append the loginDiv to the ringDiv
+        ringDiv.appendChild(loginDiv);
+
+        // Append the entire ringDiv to the document body
+        document.body.appendChild(ringDiv);
       }
     }
 
-    // Call the function to create the Questions box when needed
+    // Call the function to create the Questions ring when needed
     createQuestionsRing2();
     return; // Exit early for bcatech user
   }

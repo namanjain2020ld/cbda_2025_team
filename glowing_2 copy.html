@@ -262,10 +262,37 @@
         <h2 class="hover-title">You may Register now!</h2>
         <p class="hover-description">Teams will be announced shortly..</p>
         <button class="action-button" onclick="handleButtonClick()">Register</button>
+        
+</div>
+
       </div>
       
     </div>
   </div>
+
+  <div id="formContainer" style="display: none; position: fixed; top: 0; left: 50%;
+    transform: translateX(-50%); width: 50%; height: 100%; background: white; z-index: 9999;">
+<button onclick="closeForm()" style="
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    z-index: 10000;
+    padding: 16px 32px;
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+    background: linear-gradient(135deg, #ff416c, #ff4b2b);
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+    transition: all 0.3s ease;
+">
+  ✖ Close Form
+</button>  <iframe src="https://docs.google.com/forms/d/e/1FAIpQLScValqwrbkFWGVLBsVcLV05E3zpK19t35IRoQ2p-jDdRjqGNQ/viewform?embedded=true"
+          width="100%" height="100%" frameborder="0" marginheight="0" marginwidth="0">
+    Loading…
+  </iframe>
 
   <script>
     const ring = document.getElementById('ring');
@@ -302,16 +329,27 @@
      function handleButtonClick() {
         // Open Google Form in new tab (replace with your actual form URL)
         //  window.open('https://docs.google.com/forms/your-form-link', '_blank');
+        // Show the form container with the embedded iframe
+    document.getElementById('formContainer').style.display = 'block';
+
+
+
         
-        // Create particle explosion effect
-        createParticleExplosion();
-        
-        // After animation completes, redirect to index.html
-        setTimeout(() => {
-            window.location.href = 'index.html';
-        }, 2000); // Match this with the animation duration
     }
-    
+    function closeForm() {
+    // Hide the form container
+    document.getElementById('formContainer').style.display = 'none';
+
+    // Resume the rest of the logic
+
+    // Create particle explosion effect
+    createParticleExplosion();
+
+    // After animation completes, redirect to index.html
+    setTimeout(() => {
+        window.location.href = 'index.html';
+    }, 2000); // Match this with the animation duration
+}
     // Particle explosion effect
     function createParticleExplosion() {
         const ring = document.getElementById('ring');
