@@ -1,0 +1,82 @@
+
+.ue_neon_btn {
+  padding: 2px 12px 6px 12px;
+  background-color: #222222;
+  color: #EE472D;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  border-radius: 18px;
+  overflow: visible;
+  transition: 0.5s;
+  text-decoration: none;
+}
+.ue_neon_btn::before {
+  content: '';
+  position: absolute;
+  box-sizing: content-box;
+  border-radius: 40px;
+  width: 100%;
+  height: 100%;
+  translate: -50% -50%;
+  left: 50%;
+  top: 50%;
+  z-index: -2;
+  transition: all 0.5s;
+  animation: rotateuc_neon_glowing_button_effect_elementor_227f38b0 2000ms linear infinite;
+  filter: blur(20px) brightness(1);
+  background: conic-gradient(from var(--angle), #ff003700 50deg, #EE472D 360deg );
+}
+.ue_neon_btn::after {
+  content: '';
+  position: absolute;
+  box-sizing: content-box;
+  border-radius: calc(40px + 2px);
+  width: 100%;
+  height: 100%;
+  translate: -50% -50%;
+  left: 50%;
+  top: 50%;
+  z-index: -1;
+  animation: rotateuc_neon_glowing_button_effect_elementor_227f38b0 2000ms linear infinite;
+  padding: 2px;
+  --angle: 0deg;
+  filter: brightness(1.2) ,blur(10px);
+  background: conic-gradient(from var(--angle) , #ff003700 50deg, #EE472D 360deg );
+  transition: all 0.5s;
+}
+.ue_neon_btn:hover {
+  background-color: #EE472D;
+  color: #000000;
+}
+.ue_neon_btn:hover::before, .ue_neon_btn:hover::after {
+  transition: all 0.5s;
+  animation-play-state: paused;
+  background: conic-gradient(from var(--angle), #EE472D 0deg, #EE472D 360deg );
+}
+
+
+
+
+@property --angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+@property --hueuc_neon_glowing_button_effect_elementor_227f38b0 {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+@keyframes rotateuc_neon_glowing_button_effect_elementor_227f38b0 {
+  0% {
+    --angle: 0deg;
+       }
+  50% { 
+      }
+  100% { 
+    --angle: 360deg;
+      }
+}

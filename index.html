@@ -1,0 +1,1021 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo login page</title>
+
+<!--This is a the cool black whole animation style css. -->
+    <style>body, html { 
+    height: 100%; 
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    height: 100%;
+    background-color: rgb(255, 255, 255);
+    overflow: hidden;
+}
+
+#blackhole {
+    height: 100%;
+    width: 100%;
+    position: relative;
+    display: flex;
+}
+
+.centerHover {
+    width: 255px;
+    height: 255px;
+    background-color: transparent;
+    border-radius: 50%;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-top: -128px;
+    margin-left: -128px;
+    z-index: 2;
+    cursor: pointer;
+    line-height: 255px;
+    text-align: center;
+    transition: all 500ms;
+    
+}
+
+.centerHover.open {
+    opacity: 0;
+    pointer-events: none;
+}
+
+canvas {
+    position: relative;
+    background-color: rgb(255, 255, 255);
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    margin: auto;
+}
+
+.centerHover:hover span {
+    color: #DDD;
+    
+}
+
+.centerHover:hover span:before { 
+    background-color: #DDD; 
+}
+
+.centerHover:hover span:after { 
+    background-color: #DDD; 
+}
+
+.centerHover span {
+    color: #666;
+    font-family: serif;
+    font-size: 18px;
+    position: relative;
+    transition: all 500ms;
+}
+.Image {
+    font-size: 0;
+    width: 105%;
+    height: 100%;
+    display: flex;
+    background-image: url('WhatsApp_Image_2025-07-17_at_13.20.01-removebg-preview.png');
+    background-size: cover; /* ADD THIS LINE */
+    background-position: center;
+    background-repeat: no-repeat;
+
+}
+.centerHover span:before {
+    content: '';
+    display: inline-block;
+    height: 1px;
+    width: 16px;
+    margin-right: 12px;
+    margin-bottom: 4px;
+    background-color: #666;
+    transition: all 500ms;
+}
+
+.centerHover span:after {
+    content: '';
+    display: inline-block;
+    height: 1px;
+    width: 16px;
+    margin-left: 12px;
+    margin-bottom: 4px;
+    background-color: #666;
+    transition: all 500ms;
+} </style>
+<!--End of black whole animation style css. -->
+
+<!--This is code for login for , style css. -->
+<style>html {
+  height: 100%;
+}
+body {
+  margin:0;
+  padding:0;
+  font-family: sans-serif;
+  
+}
+
+.login-box {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 400px;
+  padding: 40px;
+  transform: translate(-50%, -50%);
+  background: rgba(255, 255, 255, 0.0); /* Fully transparent for glass effect */
+  box-sizing: border-box;
+  box-shadow: 0 15px 25px rgba(0,0,0,.6);
+  border-radius: 16px;
+  border: 1.5px solid rgba(255,255,255,0.18); /* subtle border for glass look */
+  backdrop-filter: blur(32px) saturate(180%); /* stronger blur and saturation */
+  -webkit-backdrop-filter: blur(32px) saturate(180%); /* Safari support */
+  display: none; /* Hide by default */
+  z-index: 10; /* Make sure it's above everything */
+}
+
+.login-box h2 {
+  margin: 0 0 30px;
+  padding: 0;
+  color: #fff;
+  text-align: center;
+}
+
+.login-box .user-box {
+  position: relative;
+}
+
+.login-box .user-box input {
+  width: 100%;
+  padding: 10px 0;
+  font-size: 16px;
+  color: #fff;
+  margin-bottom: 30px;
+  border: none;
+  border-bottom: 1px solid #fff;
+  outline: none;
+  background: transparent;
+}
+.login-box .user-box label {
+  position: absolute;
+  top:0;
+  left: 0;
+  padding: 10px 0;
+  font-size: 16px;
+  color: #fff;
+  pointer-events: none;
+  transition: .5s;
+}
+
+.login-box .user-box input:focus ~ label,
+.login-box .user-box input:valid ~ label {
+  top: -20px;
+  left: 0;
+  color: #03e9f4;
+  font-size: 12px;
+}
+
+.login-box form a {
+  position: relative;
+  display: inline-block;
+  padding: 10px 20px;
+  color:  #03e9f4;
+  font-size: 16px;
+  text-decoration: none;
+  text-transform: uppercase;
+  overflow: hidden;
+  transition: .5s;
+  margin-top: 40px;
+  letter-spacing: 4px
+}
+
+.login-box a:hover {
+background: linear-gradient(90deg, #ff0000, #ff00ff, #0000ff);
+color: #fff;
+border-radius: 5px;
+box-shadow:
+    0 0 10px #ff0000,
+    0 0 25px #ff00ff,
+    0 0 50px #0000ff,
+    0 0 100px #ff00ff;
+}
+
+.login-box a span {
+  position: absolute;
+  display: block;
+}
+
+.login-box a span:nth-child(1) {
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #ff00ff);
+  animation: btn-anim1 1s linear infinite;
+}
+
+@keyframes btn-anim1 {
+  0% {
+    left: -100%;
+  }
+  50%,100% {
+    left: 100%;
+  }
+}
+
+.login-box a span:nth-child(2) {
+  top: -100%;
+  right: 0;
+  width: 2px;
+  height: 100%;
+  background: linear-gradient(180deg, transparent, #ff0000);
+  animation: btn-anim2 1s linear infinite;
+  animation-delay: .25s
+}
+
+@keyframes btn-anim2 {
+  0% {
+    top: -100%;
+  }
+  50%,100% {
+    top: 100%;
+  }
+}
+
+.login-box a span:nth-child(3) {
+  bottom: 0;
+  right: -100%;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(270deg, transparent,#0000ff);
+  animation: btn-anim3 1s linear infinite;
+  animation-delay: .5s
+}
+
+@keyframes btn-anim3 {
+  0% {
+    right: -100%;
+  }
+  50%,100% {
+    right: 100%;
+  }
+}
+
+.login-box a span:nth-child(4) {
+  bottom: -100%;
+  left: 0;
+  width: 2px;
+  height: 100%;
+  background: linear-gradient(360deg, transparent, #03e9f4);
+  animation: btn-anim4 1s linear infinite;
+  animation-delay: .75s
+}
+
+@keyframes btn-anim4 {
+  0% {
+    bottom: -100%;
+  }
+  50%,100% {
+    bottom: 100%;
+  }
+}
+</style>
+<!--This is end of code for login for , style css. -->
+
+</head>
+<body>
+    <div id="blackhole">
+        <div class="centerHover"><div class ="Image"></div></div>
+    </div>
+    <!--html of using the login form. -->
+    <div class="login-box" id="loginBox">
+    <h2>CBDA Team</h2>
+    <form>
+        <div class="user-box">
+            <input type="text" name="" id="usernameInput" required="">
+            <label>Enter Email</label>
+        </div>
+        
+        <a href="#" onclick="searchTeams(); return false;">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            Search
+        </a>
+    </form>
+    
+    <!-- Add a result div to display the team -->
+    <div id="result" style="color: white; margin-top: 20px; text-align: center;">
+        Result will appear here.
+    </div>
+</div>
+<!-- end of html of using the login form. -->
+ 
+<!--This is a the cool black whole animation style js. -->
+<script>
+
+function blackhole(element) {
+    const container = document.querySelector(element);
+    const h = container.offsetHeight;
+    const w = container.offsetWidth;
+    const cw = w;
+    const ch = h;
+    const maxorbit = 355; // distance from center
+    const centery = ch / 2;
+    const centerx = cw / 2;
+
+    const startTime = new Date().getTime();
+    let currentTime = 0;
+
+    const stars = [];
+    let collapse = false; // if hovered
+    let expanse = false; // if clicked
+    let returning = false; // if particles are returning to orbit
+
+    // Create canvas
+    const canvas = document.createElement('canvas');
+    canvas.width = cw;
+    canvas.height = ch;
+    container.appendChild(canvas);
+    const context = canvas.getContext("2d");
+
+    context.globalCompositeOperation = "multiply";
+
+    function setDPI(canvas, dpi) {
+        // Set up CSS size if it's not set up already
+        if (!canvas.style.width)
+            canvas.style.width = canvas.width + 'px';
+        if (!canvas.style.height)
+            canvas.style.height = canvas.height + 'px';
+
+        const scaleFactor = dpi / 96;
+        canvas.width = Math.ceil(canvas.width * scaleFactor);
+        canvas.height = Math.ceil(canvas.height * scaleFactor);
+        const ctx = canvas.getContext('2d');
+        ctx.scale(scaleFactor, scaleFactor);
+    }
+
+    function rotate(cx, cy, x, y, angle) {
+        const radians = angle;
+        const cos = Math.cos(radians);
+        const sin = Math.sin(radians);
+        const nx = (cos * (x - cx)) + (sin * (y - cy)) + cx;
+        const ny = (cos * (y - cy)) - (sin * (x - cx)) + cy;
+        return [nx, ny];
+    }
+
+    setDPI(canvas, 192);
+
+    class Star {
+        constructor() {
+            // Get a weighted random number, so that the majority of stars will form in the center of the orbit
+            const rands = [];
+            rands.push(Math.random() * (maxorbit / 2) + 1);
+            rands.push(Math.random() * (maxorbit / 2) + maxorbit);
+
+            this.orbital = (rands.reduce((p, c) => p + c, 0) / rands.length);
+            
+            this.x = centerx; // All of these stars are at the center x position at all times
+            this.y = centery + this.orbital; // Set Y position starting at the center y + the position in the orbit
+
+            this.yOrigin = centery + this.orbital; // this is used to track the particles origin
+
+            this.speed = (Math.floor(Math.random() * 1.5) + 1.5) * Math.PI / 180; // The rate at which this star will orbit
+            this.rotation = 0; // current Rotation
+            this.startRotation = (Math.floor(Math.random() * 360) + 1) * Math.PI / 180; // Starting rotation
+
+            this.id = stars.length; // This will be used when expansion takes place
+//change the 1.7
+            this.collapseBonus = this.orbital - (maxorbit * 1); // This "bonus" is used to randomly place some stars outside of the blackhole on hover
+            if (this.collapseBonus < 0) { // if the collapse "bonus" is negative
+                this.collapseBonus = 0; // set it to 0, this way no stars will go inside the blackhole
+            }
+
+
+            this.hoverPos = centery + (maxorbit / 2) + this.collapseBonus; // Where the star will go on hover of the blackhole
+            this.expansePos = centery + (this.id % 100) * -10 + (Math.floor(Math.random() * 20) + 1); // Where the star will go when expansion takes place
+
+            this.prevR = this.startRotation;
+            this.prevX = this.x;
+            this.prevY = this.y;
+            
+            // Store original position for returning
+            this.originalY = this.yOrigin;
+
+            stars.push(this);
+        }
+
+        draw() {
+            if (!expanse) {
+                // Normal orbit or collapsed
+                this.rotation = this.startRotation + (currentTime * this.speed);
+                if (!collapse) { // not hovered
+                    // Smoothly move to origin
+                    this.y += (this.yOrigin - this.y) * 0.05;
+                } else { // on hover
+                    // Smoothly move to hover position
+                    this.y += (this.hoverPos - this.y) * 0.5;
+                }
+            } else if (expanse) {
+                // Expansion, keep stars scattered and rotating
+                this.rotation = this.startRotation + (currentTime * (this.speed / 2));
+                // Smoothly move to expanded position
+                this.y += (this.expansePos - this.y) * 0.05;
+            }
+            // No return to orbit, no 'returning' logic
+
+            context.save();
+            // Create a radial gradient for all stars, animated by colorPhase
+let grad = context.createRadialGradient(this.x, this.y, 0, this.x, this.y, 2.5);
+
+// Red at center
+grad.addColorStop(0, 'rgb(255,0,0)');
+
+// Magenta in middle (animated)
+let magenta = `rgb(${Math.floor(255 * colorPhase)},0,${Math.floor(255 * colorPhase)})`;
+grad.addColorStop(0.5, magenta);
+
+// Light pink after magenta
+grad.addColorStop(0.7, 'rgb(255,182,193)'); // Light pink (#FFB6C1)
+
+// Light cherry red after light pink
+grad.addColorStop(0.75, 'rgb(255,102,102)'); // Light red (cherry) (#FF6666)
+
+// Light pink again before blue
+grad.addColorStop(0.8, 'rgb(255,182,193)'); // Light pink again
+
+// Blue at edge
+grad.addColorStop(0.85, 'rgb(0,0,255)');
+
+// Light blue at very edge
+grad.addColorStop(1, 'rgb(3,233,244)'); // Light blue (#03e9f4)
+
+
+            context.strokeStyle = grad;
+            if (window.starGlow) {
+                context.shadowColor = 'magenta';
+                context.shadowBlur = 15;
+            } else {
+                context.shadowBlur = 0;
+            }
+            // Draw orbit line
+            context.beginPath();
+            const oldPos = rotate(centerx, centery, this.prevX, this.prevY, -this.prevR);
+            context.moveTo(oldPos[0], oldPos[1]);
+            context.translate(centerx, centery);
+            context.rotate(this.rotation);
+            context.translate(-centerx, -centery);
+            context.lineTo(this.x, this.y);
+            context.stroke();
+            // Draw star as gradient circle
+            context.beginPath();
+            context.arc(this.x, this.y, 2.03, 0, 2* Math.PI);
+            context.fillStyle = grad;
+            context.fill();
+            context.restore();
+
+            this.prevR = this.rotation;
+            this.prevX = this.x;
+            this.prevY = this.y;
+        }
+    }
+
+    // Event listeners
+    const centerHover = document.querySelector('.centerHover');
+    const loginBox = document.getElementById('loginBox');
+    
+    centerHover.addEventListener('click', function() {
+        collapse = false;
+        expanse = true;
+        window.starGlow = true; // Keep stars glowing when scattered
+        this.classList.add('open');
+        // Show login form after expansion, no return to orbit
+        // Change 2000 below to adjust expansion duration (ms)
+        setTimeout(() => {
+            window.expansionComplete = true; // flag to lock stars at expanded position
+            this.classList.remove('open');
+            this.style.display = 'none'; // Hide the blackhole text
+            loginBox.style.display = 'block'; // Show login box
+        }, 2000); // 2 seconds expansion experience (change this value for speed)
+    });
+    
+    centerHover.addEventListener('mouseover', function() {
+        if (expanse === false) {
+            collapse = true;
+            window.starGlow = true; // Enable glow on hover
+        }
+    });
+    centerHover.addEventListener('mouseout', function() {
+        if (expanse === false) {
+            collapse = false;
+            window.starGlow = false; // Disable glow on mouse out
+        }
+    });
+
+    // Animation loop
+    function loop() {
+        const now = new Date().getTime();
+        currentTime = (now - startTime) / 50;
+        // Oscillate colorPhase between 0 and 1 and back
+        colorPhase = (Math.sin(now / 800) + 1) / 2; // cycles smoothly forward and backward
+
+        context.fillStyle = 'rgba(25,25,25,0.2)';
+        context.fillRect(0, 0, cw, ch);
+
+        for (let i = 0; i < stars.length; i++) {
+            if (stars[i] !== undefined) {
+                stars[i].draw();
+            }
+        }
+
+        requestAnimationFrame(loop);
+    }
+
+    function init() {
+        context.fillStyle = 'rgba(25,25,25,1)'; // Initial clear of the canvas
+        context.fillRect(0, 0, cw, ch);
+        for (let i = 0; i < 210; i++) { // create fewer stars for better performance
+            new Star();
+        }
+        loop();
+    }
+
+    init();
+}
+
+// Initialize when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    blackhole('#blackhole');
+});
+window.starGlow = false;
+let colorPhase = 0;
+</script>
+<!--End of black whole animation style css. -->
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+
+<script>
+  var teamMaterialsCreated = false;
+function searchTeams() {
+  var username = document.getElementById('usernameInput').value.trim();
+
+  if (username === '') {
+    alert('Please enter a username.');
+    return;
+  }
+
+  // Special case for 'bcatech' user
+  if (username === 'bcatech') {
+    // Hide the current login box
+    document.getElementById('loginBox').style.display = 'none';
+    
+    // JavaScript to dynamically create and append the HTML structure using existing CSS classes
+    function createQuestionsRing2() {
+      if (!questionsRingCreated) {
+        questionsRingCreated = true; // checker
+        
+        // Create the main div with class "login-box" (using your existing CSS)
+        var loginBoxDiv = document.createElement('div');
+        loginBoxDiv.classList.add('login-box');
+        loginBoxDiv.id = 'bcatechBox'; // Give it a unique ID
+        loginBoxDiv.style.display = 'block'; // Make sure it's visible
+        loginBoxDiv.style.zIndex = '100'; // Ensure it's on top
+
+        // Create the h2 element for "Google Form Links"
+        var h2Element = document.createElement('h2');
+        h2Element.textContent = 'Google Form Links';
+        loginBoxDiv.appendChild(h2Element);
+
+
+        loginBoxDiv.style.display = 'flex';
+loginBoxDiv.style.flexWrap = 'wrap';
+loginBoxDiv.style.gap = '20px';  // auto spacing between children
+
+
+        // Define questions and corresponding links
+        var questions = ["Aptitude", "Case one QA", "Case two QA", "CHECK RESPONSE"];
+        var links_for_each = [
+          "https://forms.gle/jKqwL4sw5XpoEy1c6",
+          "https://forms.gle/RCafVLGJ994wbcKs6",
+          "https://forms.gle/M5bwLCsXBKAQbu5N7",
+          "https://docs.google.com/spreadsheets/d/1O4V_gptOI1MsBCizAjNAGNnDEpLo4Fv6VraYde9_ID0/edit?usp=sharing"
+        ];
+
+        // Loop through the questions array and create form elements using your existing CSS structure
+        for (var j = 0; j < questions.length; j++) {
+          // Create a link element styled like your existing form links
+          var linkElement = document.createElement('a');
+linkElement.href = '#';
+linkElement.textContent = questions[j];
+linkElement.setAttribute('onclick', `window.open("${links_for_each[j]}", "_blank"); return false;`);
+linkElement.style.marginTop = '30px';
+linkElement.style.display = 'inline-block';
+linkElement.style.padding = '12px 24px';
+linkElement.style.fontSize = '16px';
+linkElement.style.color = '#fff';
+linkElement.style.background = 'linear-gradient(135deg, #6e8efb, #a777e3)';
+linkElement.style.border = 'none';
+linkElement.style.borderRadius = '8px';
+linkElement.style.textDecoration = 'none';
+linkElement.style.overflow = 'hidden';
+linkElement.style.position = 'relative';
+linkElement.style.transition = 'background 0.3s ease, transform 0.2s ease';
+linkElement.style.zIndex = '1';
+          
+          loginBoxDiv.appendChild(linkElement);
+        }
+
+        // Append the entire loginBoxDiv to the document body
+        document.body.appendChild(loginBoxDiv);
+      }
+    }
+
+    // Call the function to create the Questions box when needed
+    createQuestionsRing2();
+    return; // Exit early for bcatech user
+  }
+
+  // For all other users, fetch from Google Sheets
+  var url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTwdoUiUUtQAgHOxC5YvJ3-CA7gkswd5Ps0x72N5edZ5dR3mZFZbK2ww2gWSMr_3fc7oBNDdsYBuIhV/pub?gid=882821954&single=true&output=csv';
+
+  // Make a GET request to the published Google Sheet URL
+  fetch(url)
+    .then(response => response.text())
+    .then(data => {
+      // Parse CSV data
+      var rows = Papa.parse(data, { header: false }).data; // No headers in this case
+
+      // Find the index of the username in the first column (index 0)
+      var index = rows.findIndex(row => row[0] && row[0].trim().toLowerCase() === username.toLowerCase());
+
+      if (index !== -1) {
+        var team = rows[index][1]; // Get the team name from the second column (index 1)
+        document.getElementById('result').textContent = ` ${username} your team is ${team}`;
+        var room = rows[index][3]; // Get the team name from the second column (index 1)
+        document.getElementById('result').textContent = ` ${username} your team is ${team} and room is ${room}`;
+        setTimeout(() => {
+  createTeamMaterialsInterface(username, team,room);
+}, 1000);
+
+      } else {
+        document.getElementById('result').textContent = `User ${username} not found.`;
+      }
+    })
+    .catch(error => {
+      console.error('Error fetching data:', error);
+      document.getElementById('result').textContent = 'Error fetching data. Please try again later.';
+    });
+}
+
+// Note: You'll also need the global variable declaration
+var questionsRingCreated = false;
+
+function createTeamMaterialsInterface(username, team, room) {
+  if (teamMaterialsCreated) return;
+  teamMaterialsCreated = true;
+
+  // First, add the CSS styles dynamically
+  const style = document.createElement('style');
+  style.textContent = `
+    .materials-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      z-index: 1000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      backdrop-filter: blur(10px);
+      animation: fadeIn 0.5s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .materials-card {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
+      padding: 40px;
+      max-width: 600px;
+      width: 90%;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+      transform: scale(0.8);
+      animation: cardEntrance 0.6s ease-out forwards;
+      position: relative;
+      overflow: hidden;
+    }
+
+    @keyframes cardEntrance {
+      to {
+        transform: scale(1);
+      }
+    }
+
+    .materials-card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: conic-gradient(from 0deg, transparent, rgba(255, 0, 150, 0.1), transparent, rgba(0, 150, 255, 0.1), transparent);
+      animation: rotate 4s linear infinite;
+      z-index: -1;
+    }
+
+    @keyframes rotate {
+      to { transform: rotate(360deg); }
+    }
+
+    .materials-header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .materials-title {
+      color: #fff;
+      font-size: 28px;
+      margin: 0 0 10px 0;
+      font-weight: bold;
+      text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+    }
+
+    .team-info {
+      color: #03e9f4;
+      font-size: 36px;
+      margin: 0;
+      text-shadow: 0 0 10px rgba(3, 233, 244, 0.5);
+    }
+
+    .materials-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    .material-btn {
+      background: linear-gradient(45deg, rgba(255, 0, 150, 0.2), rgba(0, 150, 255, 0.2));
+      border: 2px solid transparent;
+      border-radius: 15px;
+      padding: 20px;
+      color: #fff;
+      text-decoration: none;
+      text-align: center;
+      font-weight: bold;
+      font-size: 16px;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .material-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.5s;
+    }
+
+    .material-btn:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(255, 0, 150, 0.3), 
+              0 0 20px rgba(255, 255, 255, 0.4), 
+              0 0 40px rgba(3, 233, 244, 0.3),
+              inset 0 0 20px rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.8);
+  filter: brightness(1.2);
+}
+
+    .material-btn:hover::before {
+      left: 100%;
+    }
+
+    .material-btn:nth-child(1) {
+      background: linear-gradient(45deg, rgba(255, 0, 0, 0.2), rgba(255, 100, 100, 0.2));
+    }
+
+    .material-btn:nth-child(2) {
+      background: linear-gradient(45deg, rgba(0, 255, 0, 0.2), rgba(100, 255, 100, 0.2));
+    }
+
+    .material-btn:nth-child(3) {
+      background: linear-gradient(45deg, rgba(0, 0, 255, 0.2), rgba(100, 100, 255, 0.2));
+    }
+
+    .material-btn:nth-child(4) {
+      background: linear-gradient(45deg, rgba(255, 255, 0, 0.2), rgba(255, 255, 100, 0.2));
+    }
+
+    .material-btn:nth-child(1):hover {
+  background: linear-gradient(45deg, rgba(255, 0, 0, 0.6), rgba(255, 100, 100, 0.6));
+}
+
+.material-btn:nth-child(2):hover {
+  background: linear-gradient(45deg, rgba(0, 255, 0, 0.6), rgba(100, 255, 100, 0.6));
+}
+
+.material-btn:nth-child(3):hover {
+  background: linear-gradient(45deg, rgba(0, 0, 255, 0.6), rgba(100, 100, 255, 0.6));
+}
+
+.material-btn:nth-child(4):hover {
+  background: linear-gradient(45deg, rgba(255, 255, 0, 0.6), rgba(255, 255, 100, 0.6));
+}
+
+    .close-btn {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      background: transparent;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      color: #fff;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 20px;
+      font-weight: bold;
+      transition: all 0.3s ease;
+    }
+
+    .close-btn:hover {
+      background: rgba(255, 0, 0, 0.3);
+      border-color: #ff0000;
+      transform: rotate(90deg);
+    }
+
+    .floating-particles {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    .particle {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: #03e9f4;
+      border-radius: 50%;
+      animation: float 3s infinite ease-in-out;
+      box-shadow: 0 0 10px #03e9f4;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 1; }
+      50% { transform: translateY(-20px) rotate(180deg); opacity: 0.5; }
+    }
+
+    @media (max-width: 768px) {
+      .materials-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .materials-card {
+        margin: 20px;
+        padding: 30px 20px;
+      }
+    }
+  `;
+  document.head.appendChild(style);
+
+  // Create the main container
+  const container = document.createElement('div');
+  container.className = 'materials-container';
+  container.id = 'materialsContainer';
+
+  // Create floating particles
+  const particlesContainer = document.createElement('div');
+  particlesContainer.className = 'floating-particles';
+  
+  // Add some floating particles for visual effect
+  for (let i = 0; i < 500; i++) {
+    const particle = document.createElement('div');
+    particle.className = 'particle';
+    particle.style.left = Math.random() * 100 + '%';
+    particle.style.top = Math.random() * 100 + '%';
+    particle.style.animationDelay = Math.random() * 3 + 's';
+    particle.style.animationDuration = (Math.random() * 2 + 2) + 's';
+    particlesContainer.appendChild(particle);
+  }
+
+  // Create the card
+  const card = document.createElement('div');
+  card.className = 'materials-card';
+
+  // Add close button
+  const closeBtn = document.createElement('button');
+  closeBtn.className = 'close-btn';
+  closeBtn.innerHTML = '×';
+  closeBtn.onclick = function() {
+    container.style.animation = 'fadeOut 0.3s ease-in-out forwards';
+    setTimeout(() => {
+      document.body.removeChild(container);
+      teamMaterialsCreated = false; // Reset for future use
+    }, 300);
+  };
+
+  // Add fadeOut animation
+  const fadeOutStyle = document.createElement('style');
+  fadeOutStyle.textContent = `
+    @keyframes fadeOut {
+      from { opacity: 1; }
+      to { opacity: 0; }
+    }
+  `;
+  document.head.appendChild(fadeOutStyle);
+
+  // Create header
+  const header = document.createElement('div');
+  header.className = 'materials-header';
+  
+  const title = document.createElement('h2');
+  title.className = 'materials-title';
+  title.textContent = 'Download Materials';
+  
+  const teamInfo = document.createElement('p');
+  teamInfo.className = 'team-info :';
+  teamInfo.textContent = `${username} - Team : ${team} \n Room : ${room}`;
+  
+  header.appendChild(title);
+  header.appendChild(teamInfo);
+
+  // Create materials grid
+  const grid = document.createElement('div');
+  grid.className = 'materials-grid';
+
+  // Define your 4 materials (you can change these links later)
+  const materials = [
+    { name: 'Case 1', link: 'Case1.pdf', icon: '📚' },
+    { name: 'Case 2', link: 'Case2.pdf', icon: '📖' },
+    { name: 'Aptitude', link: 'Aptitude.pdf', icon: '❓' },
+    { name: 'Feedback', link: 'https://forms.gle/r7UTbzaR7V4hAQJh9-resources.pdf', icon: '🔗' }
+  ];
+
+  // Create material buttons
+  materials.forEach((material, index) => {
+    const btn = document.createElement('a');
+    btn.className = 'material-btn';
+    btn.href = material.link;
+    btn.target = '_blank';
+    btn.innerHTML = `
+      <div style="font-size: 24px; margin-bottom: 10px;">${material.icon}</div>
+      ${material.name}
+    `;
+    
+    // Add click animation
+    btn.addEventListener('click', function(e) {
+      this.style.transform = 'scale(0.95)';
+      setTimeout(() => {
+        this.style.transform = 'translateY(-5px)';
+      }, 100);
+    });
+    
+    grid.appendChild(btn);
+  });
+
+  // Assemble everything
+  card.appendChild(closeBtn);
+  card.appendChild(header);
+  card.appendChild(grid);
+  
+  container.appendChild(particlesContainer);
+  container.appendChild(card);
+  
+  // Add to document
+  document.body.appendChild(container);
+
+  // Add click outside to close functionality
+  container.addEventListener('click', function(e) {
+    if (e.target === container) {
+      closeBtn.click();
+    }
+  });
+}
+
+</script>
+
+
+
+</body>
+</html>
