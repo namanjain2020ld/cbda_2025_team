@@ -10,7 +10,7 @@
     padding: 0;
 }
 
-body { 
+body {
     height: 100%;
     background-color: rgb(255, 255, 255);
     overflow: hidden;
@@ -643,7 +643,8 @@ linkElement.style.zIndex = '1';
 
   // For all other users, fetch from Google Sheets
   var url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTwdoUiUUtQAgHOxC5YvJ3-CA7gkswd5Ps0x72N5edZ5dR3mZFZbK2ww2gWSMr_3fc7oBNDdsYBuIhV/pub?gid=882821954&single=true&output=csv';
-    // Make a GET request to the published Google Sheet URL
+
+  // Make a GET request to the published Google Sheet URL
   fetch(url)
     .then(response => response.text())
     .then(data => {
@@ -656,9 +657,8 @@ linkElement.style.zIndex = '1';
       if (index !== -1) {
         var team = rows[index][1]; // Get the team name from the second column (index 1)
         document.getElementById('result').textContent = ` ${username} your team is ${team}`;
-        var room = rows[index][3]; // Get the team room from the 4th column (index 1)
-        document.getElementById('result').textContent = ` ${username} your team is ${team}`;
-
+        var room = rows[index][3]; // Get the team name from the second column (index 1)
+        document.getElementById('result').textContent = ` ${username} your team is ${team} and room is ${room}`;
         setTimeout(() => {
   createTeamMaterialsInterface(username, team,room);
 }, 1000);
@@ -897,17 +897,7 @@ function createTeamMaterialsInterface(username, team, room) {
       }
     }
   `;
-
-  // TO ENABLE DOWNLOAD RESOURCE 
-  // Enable Resource
-  
-  //document.head.appendChild(style);
-  
-
-  
-
-
-
+  document.head.appendChild(style);
 
   // Create the main container
   const container = document.createElement('div');
@@ -965,7 +955,7 @@ function createTeamMaterialsInterface(username, team, room) {
   
   const teamInfo = document.createElement('p');
   teamInfo.className = 'team-info :';
-  //teamInfo.textContent = `${username} - Team : ${team} \n Room : ${room}`;
+  teamInfo.textContent = `${username} - Team : ${team} \n Room : ${room}`;
   
   header.appendChild(title);
   header.appendChild(teamInfo);
@@ -975,14 +965,12 @@ function createTeamMaterialsInterface(username, team, room) {
   grid.className = 'materials-grid';
 
   // Define your 4 materials (you can change these links later)
- const materials = [
-  { name: 'Case 1', link: 'Case1.pdf', icon: '📄' },
-  { name: 'Case 1 Data', link: 'Case1 Data.xlsx', icon: '📊' },
-  { name: 'Case 2', link: 'Case2.pdf', icon: '📋' },
-  { name: 'Case 2 Data', link: 'Case2 Data.xlsx', icon: '📈' },
-  { name: 'Aptitude', link: 'Aptitude.pdf', icon: '🧠' },
-  { name: 'Feedback', link: 'https://forms.gle/r7UTbzaR7V4hAQJh9', icon: '💬' }
-];
+  const materials = [
+    { name: 'Case 1', link: 'Case1.pdf', icon: '📚' },
+    { name: 'Case 2', link: 'Case2.pdf', icon: '📖' },
+    { name: 'Aptitude', link: 'Aptitude.pdf', icon: '❓' },
+    { name: 'Feedback', link: 'https://forms.gle/r7UTbzaR7V4hAQJh9-resources.pdf', icon: '🔗' }
+  ];
 
   // Create material buttons
   materials.forEach((material, index) => {
